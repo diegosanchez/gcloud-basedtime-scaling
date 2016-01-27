@@ -14,9 +14,13 @@
   "author": "dsanchez@iamat.com",
   "license": "ISC",
   "devDependencies": {
-    "mocha": "^2.4.2"
+    "chai": "^3.4.1",
+    "mocha": "^2.4.2",
+    "sinon": "^1.17.3",
+    "sinon-chai": "^2.8.0"
   },
   "dependencies": {
-    "async": "^1.5.2"
+    "async": "^1.5.2",
+    "googleapis": "^2.1.7"
   }
 }
