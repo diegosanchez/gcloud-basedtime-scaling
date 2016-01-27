@@ -1,0 +1,22 @@
+{
+  "name": "gbasedtimescaling",
+  "version": "0.0.1",
+  "description": "GCloud based time autoscaling",
+  "main": "index.js",
+  "scripts": {
+    "test": "make"
+  },
+  "keywords": [
+    "google",
+    "gcloud",
+    "autoscaling"
+  ],
+  "author": "dsanchez@iamat.com",
+  "license": "ISC",
+  "devDependencies": {
+    "mocha": "^2.4.2"
+  },
+  "dependencies": {
+    "async": "^1.5.2"
+  }
+}

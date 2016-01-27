@@ -1,0 +1,126 @@
+// var google = require("googleapis"),
+//     async = require("async"),
+//     extend = require("extend"),
+//     moment = require("moment");
+
+// var protocol = {
+//     recordEvent: function(start, end, detail) {
+//         var newEvent = {
+//             start: start,
+//             end: end,
+//             detail: detail
+//         };
+//         return this.pushIfNotExist(newEvent);
+//     },
+
+//     scale: function(callback) {
+//         var self = this;
+//         var options = self.defaultOptions({interval: 10000});
+
+//         // Prevent from triggering several timers
+//         if ( self.timer ) {
+//             return self;
+//         }
+
+//         self.timer = setInterval(function() {
+//             var ens = self.eventsInProgress();
+
+//             if ( !ens.length ) {
+//                 self.scaleInstanceGroup(self.minInstances, function(err, groupsUpdated) {
+//                     callback(null, null, self.minInstances, groupsUpdated);
+//                 });
+//                 return;
+//             }
+
+//             ens.forEach(function(e) {
+//                 self.scaleInstanceGroup(e.detail, function(err, groupsUpdated) {
+//                     if ( err ) {
+//                         callback(err, e);
+//                         return;
+//                     }
+//                     // self.alreadyExecuted(e);
+//                     callback(null, e, e.detail, groupsUpdated);
+//                 });
+//             });
+//         }, self.scaleInterval);
+
+//         return self;
+//     },
+
+//     defaultOptions: function(aditional) {
+//         return extend(this.options, aditional);
+//     },
+
+//     pushIfNotExist: function(event) {
+//         if ( this.exists(event) ) {
+//             return null;
+//         }
+
+//         this.events.push(event);
+
+//         return event;
+//     },
+
+//     exists: function(event) {
+//         return this.events.some(function(e) {
+//             return e.start == event.start && e.end == event.end;
+//         });
+//     },
+
+//     eventsInProgress: function() {
+//         return this.events.filter(this.isInProgress);
+//     },
+
+//     isInProgress: function(event) {
+//         var start = moment(event.start);
+//         var end = moment(event.end);
+//         return moment().isBetween(start, end); // && !event.executed;
+//     },
+
+//     scaleInstanceGroup: function(size, callback) {
+//         var self = this;
+
+//         async.map(self.instanceGroups, function(group, fn) {
+//             self.instanceGroupManager.resize({
+//                 auth: self.jwtClient,
+//                 project: self.projectId,
+//                 zone: group.zone,
+//                 instanceGroupManager: group.name,
+//                 size: size
+//             }, function(err) {
+//                 fn(err, group);
+//             });
+//         }, callback);
+//     }
+
+    // alreadyExecuted: function(event) {
+    //     this.events = this.events.map(function(e) {
+    //         if ( e.start === event.start && e.end === event.end) {
+    //             e.executed = true;
+    //         }
+
+    //         return e;
+    //     });
+    // }
+//};
+
+module.exports = {
+    createFrom: function(object, options) {
+        // object.options = options || {};
+        // object.jwtClient = new google.auth.JWT(
+        //     object.credentials.client_email,
+        //     null,
+        //     object.credentials.private_key,
+        //     [
+        //         "https://www.googleapis.com/auth/compute",
+        //         "https://www.googleapis.com/auth/cloud-platform"
+        //     ],
+        //     null
+        // );
+
+        // object.instanceGroupManager = google.compute("v1").instanceGroupManagers;
+        // object.events = [];
+        object.__proto__ = protocol;
+        return object;
+    }
+};
