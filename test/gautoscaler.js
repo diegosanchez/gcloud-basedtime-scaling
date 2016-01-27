@@ -65,14 +65,44 @@ describe("gautoscaler", function() {
     });
 
     describe("scale up events", function() {
+        var size = 4,
+            group = [{name: "group", zone: "zone"}],
+            object = {
+                scaleUp: stubGoogleScaler(null /* error */),
+                minimumInstances: 4,
+                instanceGroups: group
+            },
+            start = new Date(),
+            end = new Date(start.getFullYear(), start.getMonth() + 1, start.getDate() + 5);
+
         it("shouldn't trigger any events because date is out of range", function() {
-            var spy = sinon.spy(),
-                gscaler = gautoscaler.createFrom({}, { scaler: spy});
+            var spySuccess = sinon.spy(),
+                spyError = sinon.spy(),
+                gscaler = gautoscaler.createFrom(object);
 
             gscaler.recordEvent(new Date("Dec 25, 1995"), new Date("Dec 25, 1996"),
                                 "summary", 25);
-            gscaler.scale();
-            chai.expect(spy).to.not.have.been.called
+            gscaler.scale(spySuccess, spyError);
+            var expected = {
+                summary: "default size setup",
+                size: 4
+            };
+            chai.expect(spySuccess).to.have.been.calledWith(sinon.match(expected));
+            chai.expect(spyError).to.not.have.been.called;
+        });
+
+        it("should scale default size if there aren't inprogress events", function() {
+            var spySuccess = sinon.spy(),
+                spyError = sinon.spy(),
+                gscaler = gautoscaler.createFrom(object);
+
+            gscaler.scale(spySuccess,spyError);
+
+            var expected = {
+                summary: "default size setup",
+                size: 4
+            };
+            chai.expect(spySuccess).to.have.been.calledWith(sinon.match(expected));
         });
     });
 });
