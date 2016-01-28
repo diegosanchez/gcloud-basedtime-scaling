@@ -105,4 +105,37 @@ describe("gautoscaler", function() {
             chai.expect(spySuccess).to.have.been.calledWith(sinon.match(expected));
         });
     });
+
+    describe("user record an event with moment.js", function() {
+        var moment = require("moment"),
+            momentDates = require("../dates/moment"),
+            size = 4,
+            group = [{name: "group", zone: "zone"}],
+            object = {
+                scaleUp: stubGoogleScaler(null /* error */),
+                currentDate: momentDates.current,
+                currentDateIsBetween: momentDates.isBetween,
+                instanceGroups: group
+            },
+            start = moment(),
+            end = moment().add(1, "day");
+
+
+        it("should trigger success callback upon scale", function() {
+            var spySuccess = sinon.spy(),
+                gscaler = gautoscaler.createFrom(object);
+
+            gscaler.recordEvent(start, end, "summary", size);
+            gscaler.scale(spySuccess, sinon.spy());
+
+            var expected = {
+                start: start,
+                end: end,
+                summary: "summary",
+                size: size
+            };
+            chai.expect(spySuccess).to.have.been.calledWith(sinon.match(expected));
+        });
+    });
+
 });
