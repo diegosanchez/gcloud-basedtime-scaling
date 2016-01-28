@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "async": "^1.5.2",
-    "googleapis": "^2.1.7"
+    "googleapis": "^2.1.7",
+    "moment": "^2.11.1"
   }
 }

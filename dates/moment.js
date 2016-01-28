@@ -7,5 +7,9 @@ module.exeport = {
 
     isBetween: function(current, from, to) {
         return current.isBetween(from, to);
+    },
+
+    isSame: function(one, another) {
+        return one.isSame(another);
     }
 }
